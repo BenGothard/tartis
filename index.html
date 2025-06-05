@@ -27,8 +27,12 @@
         #sidebar {
             margin-left: 20px;
         }
-        #score, #next {
+        #score, #next, #leaderboard {
             margin-bottom: 20px;
+        }
+        #scores {
+            padding-left: 20px;
+            margin: 0;
         }
     </style>
 </head>
@@ -43,6 +47,10 @@
             <div id="score">
                 <h3>Score</h3>
                 <div id="score-value">0</div>
+            </div>
+            <div id="leaderboard">
+                <h3>Leaderboard</h3>
+                <ol id="scores"></ol>
             </div>
         </div>
     </div>
