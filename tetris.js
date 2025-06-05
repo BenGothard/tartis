@@ -101,7 +101,10 @@ let board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 let current = new Piece(randomShape());
 let next = new Piece(randomShape());
 let dropCounter = 0;
-let dropInterval = 500;
+const BASE_DROP_INTERVAL = 500;
+const MIN_DROP_INTERVAL = 100;
+let dropInterval = BASE_DROP_INTERVAL;
+let linesCleared = 0;
 let lastTime = 0;
 let score = 0;
 
@@ -151,7 +154,15 @@ function clearLines() {
     board.unshift(Array(COLS).fill(0));
     lines++;
   }
-  if (lines > 0) score += lines * lines * 100;
+  if (lines > 0) {
+    score += lines * lines * 100;
+    linesCleared += lines;
+    const level = Math.floor(linesCleared / 10);
+    dropInterval = Math.max(
+      MIN_DROP_INTERVAL,
+      BASE_DROP_INTERVAL - level * 50
+    );
+  }
 }
 
 function getGhostPiece(piece) {
