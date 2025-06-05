@@ -43,9 +43,9 @@ function addScore(name, value) {
 
 updateLeaderboard();
 
-const COLS = 15;
+const COLS = 20;
 const ROWS = 30;
-const CELL = 20;
+const CELL = 24;
 
 canvas.width = COLS * CELL;
 canvas.height = ROWS * CELL;
