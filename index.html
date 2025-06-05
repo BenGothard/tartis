@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tartis Web</title>
+    <title>Tartis</title>
     <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -76,10 +76,18 @@
             font-size: 2em;
             margin-top: 5px;
         }
+        #title {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0;
+        }
     </style>
 </head>
 <body>
     <button id="theme-toggle" aria-label="Toggle dark mode"></button>
+    <h1 id="title">Tartis</h1>
     <div id="game">
         <canvas id="board" width="480" height="720"></canvas>
         <div id="sidebar">
