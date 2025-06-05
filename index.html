@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tartis Web</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
     <style>
         body {
-            background: #111;
+            background: linear-gradient(135deg, #ff5f6d, #ffc371);
             color: #fff;
-            font-family: Arial, sans-serif;
+            font-family: "Bubblegum Sans", cursive;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -21,14 +22,20 @@
             display: flex;
         }
         canvas {
-            background: #000;
-            border: 2px solid #444;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         }
         #sidebar {
             margin-left: 20px;
         }
         #score, #next, #leaderboard {
             margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         #scores {
             padding-left: 20px;
