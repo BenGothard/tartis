@@ -25,3 +25,9 @@ python tetris.py
 
 Use the arrow keys to move and rotate the pieces. Close the window to exit the
 game.
+
+## Play Online
+
+A simplified version of Tartis is available through GitHub Pages. Open `index.html` from the repository or visit the project page if hosted. The browser version is written in JavaScript so no installation is required.
+
+Use the arrow keys to control the falling pieces just like the desktop version.
