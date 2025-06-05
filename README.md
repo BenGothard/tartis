@@ -10,6 +10,9 @@ You can optionally enter a name in the sidebar to record your scores on the
 leaderboard; leaving it blank will save scores as **Anonymous**. Only the five
 highest scores are stored locally.
 
+The game awards more points as you progress. Every ten lines cleared increases
+the current level, multiplying the score earned for subsequent line clears.
+
 ## Development
 
 All logic is contained in [tetris.js](tetris.js) and the markup lives in

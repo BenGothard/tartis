@@ -174,9 +174,10 @@ function clearLines() {
     lines++;
   }
   if (lines > 0) {
-    score += lines * lines * 100;
     linesCleared += lines;
     const level = Math.floor(linesCleared / 10);
+    const multiplier = level + 1; // reward higher levels with more points
+    score += lines * lines * 100 * multiplier;
     dropInterval = Math.max(
       MIN_DROP_INTERVAL,
       BASE_DROP_INTERVAL - level * 50
