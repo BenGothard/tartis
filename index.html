@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tartis Web</title>
+    <style>
+        body {
+            background: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding-top: 20px;
+        }
+        #game {
+            display: flex;
+        }
+        canvas {
+            background: #000;
+            border: 2px solid #444;
+        }
+        #sidebar {
+            margin-left: 20px;
+        }
+        #score, #next {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <canvas id="board" width="300" height="600"></canvas>
+        <div id="sidebar">
+            <div id="next">
+                <h3>Next</h3>
+                <canvas id="preview" width="120" height="120"></canvas>
+            </div>
+            <div id="score">
+                <h3>Score</h3>
+                <div id="score-value">0</div>
+            </div>
+        </div>
+    </div>
+    <script src="tetris.js"></script>
+</body>
+</html>
