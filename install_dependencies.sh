@@ -15,31 +15,20 @@ if [ "$NODE_MAJOR" -lt 20 ]; then
 fi
 
 # ----- Install project dependencies -----
-# Install all dependencies listed in package.json using Yarn.
+# Ensure package.json exists and install dependencies listed in it using Yarn.
+if [ ! -f package.json ]; then
+  npm init -y >/dev/null 2>&1
+fi
 yarn install
 
 # ----- Ensure required devDependencies -----
 DEV_DEPS=(eslint prettier typescript husky lint-staged)
-for pkg in "${DEV_DEPS[@]}"; do
-  node - <<NODE || yarn add -D "$pkg"
-const fs = require('fs');
-const pkg = require('./package.json');
-const name = process.argv[1];
-if ((pkg.dependencies && pkg.dependencies[name]) || (pkg.devDependencies && pkg.devDependencies[name])) {
-  process.exit(0);
-}
-process.exit(1);
-NODE
-"$pkg"
-done
+yarn add -D "${DEV_DEPS[@]}"
 
 # ----- Initialize ESLint configuration -----
 # Try to generate a config using @eslint/create-config. If it fails, fall back to a simple preset.
 if [ ! -f .eslintrc.json ] && [ ! -f eslint.config.js ]; then
-  if npx --yes @eslint/create-config --config eslint-config-airbnb-base --eslintrc --packageManager yarn --no-install >/dev/null 2>&1; then
-    echo "ESLint configuration created via create-config."
-  else
-    cat > .eslintrc.json <<'EOC'
+  cat > .eslintrc.json <<'EOC'
 {
   "env": {
     "browser": true,
@@ -53,7 +42,6 @@ if [ ! -f .eslintrc.json ] && [ ! -f eslint.config.js ]; then
   "rules": {}
 }
 EOC
-  fi
 fi
 
 # ----- Create tsconfig.json -----
