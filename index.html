@@ -86,36 +86,70 @@
             font-size: 2em;
             margin-top: 5px;
         }
-        #title {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        .game-title {
             margin: 0;
+            font-size: 4vw;
+            max-font-size: 2rem;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .board-wrapper {
+            width: 90vw;
+            max-width: 600px;
+            aspect-ratio: 1 / 1;
+            position: relative;
+        }
+
+        /* If using a <canvas> for the board: */
+        #gameCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* If using CSS grid for tiles: */
+        .grid-board {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            /* keep existing grid-template-columns/rows logic */
         }
     </style>
 </head>
 <body>
     <button id="theme-toggle" aria-label="Toggle dark mode"></button>
-    <h1 id="title">Tartis</h1>
-    <div id="game">
-        <canvas id="board" width="480" height="720"></canvas>
-        <div id="sidebar">
-            <div id="next">
-                <h3>Next</h3>
-                <canvas id="preview" width="120" height="120"></canvas>
+    <div class="game-container">
+        <h1 class="game-title">Tartis</h1>
+        <div id="game">
+            <div class="board-wrapper">
+                <canvas id="gameCanvas"></canvas>
             </div>
-            <div id="score">
+            <div id="sidebar">
+                <div id="next">
+                    <h3>Next</h3>
+                    <canvas id="preview" width="120" height="120"></canvas>
+                </div>
+                <div id="score">
                 <h3>Score</h3>
                 <div id="score-value">0</div>
             </div>
             <div id="name-entry">
                 <input id="player-name-input" type="text" placeholder="Your name (optional)" />
             </div>
-            <div id="leaderboard">
-                <h3>Leaderboard</h3>
-                <ol id="scores"></ol>
-                <button id="clear-scores">Clear Scores</button>
+                <div id="leaderboard">
+                    <h3>Leaderboard</h3>
+                    <ol id="scores"></ol>
+                    <button id="clear-scores">Clear Scores</button>
+                </div>
             </div>
         </div>
     </div>

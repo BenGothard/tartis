@@ -1,4 +1,4 @@
-const canvas = document.getElementById("board");
+const canvas = document.getElementById("gameCanvas");
 const context = canvas.getContext("2d");
 const preview = document.getElementById("preview");
 const previewCtx = preview.getContext("2d");
@@ -57,10 +57,17 @@ if (clearScoresBtn) {
 
 const COLS = 20;
 const ROWS = 30;
-const CELL = 24;
+let CELL = 24;
 
-canvas.width = COLS * CELL;
-canvas.height = ROWS * CELL;
+function resizeCanvas() {
+  const parentRect = document
+    .querySelector('.board-wrapper')
+    .getBoundingClientRect();
+  canvas.width = Math.floor(parentRect.width);
+  canvas.height = Math.floor(parentRect.height);
+  CELL = canvas.width / COLS;
+  draw();
+}
 
 const SHAPES = {
   I: [[1, 1, 1, 1]],
@@ -279,4 +286,8 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('DOMContentLoaded', resizeCanvas);
+
+resizeCanvas();
 update();
