@@ -4,9 +4,9 @@ const preview = document.getElementById('preview');
 const previewCtx = preview.getContext('2d');
 const scoreEl = document.getElementById('score-value');
 
-const COLS = 10;
-const ROWS = 20;
-const CELL = 30;
+const COLS = 15;
+const ROWS = 30;
+const CELL = 20;
 
 canvas.width = COLS * CELL;
 canvas.height = ROWS * CELL;
@@ -147,10 +147,11 @@ function update(time = 0) {
 }
 
 document.addEventListener('keydown', event => {
-    if (event.key === 'ArrowLeft' && !collide(current, -1, 0)) current.x--;
-    if (event.key === 'ArrowRight' && !collide(current, 1, 0)) current.x++;
-    if (event.key === 'ArrowDown' && !collide(current, 0, 1)) current.y++;
-    if (event.key === 'ArrowUp') rotate(current);
+    const key = event.key.toLowerCase();
+    if (key === 'a' && !collide(current, -1, 0)) current.x--;
+    if (key === 'd' && !collide(current, 1, 0)) current.x++;
+    if (key === 's' && !collide(current, 0, 1)) current.y++;
+    if (key === 'w') rotate(current);
 });
 
 update();
