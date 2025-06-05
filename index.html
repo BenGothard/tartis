@@ -72,6 +72,16 @@
             border-radius: 5px;
             box-sizing: border-box;
         }
+        #clear-scores {
+            width: 100%;
+            margin-top: 10px;
+            padding: 6px 10px;
+            background: var(--panel-bg);
+            border: 1px solid #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
         #score-value {
             font-size: 2em;
             margin-top: 5px;
@@ -105,6 +115,7 @@
             <div id="leaderboard">
                 <h3>Leaderboard</h3>
                 <ol id="scores"></ol>
+                <button id="clear-scores">Clear Scores</button>
             </div>
         </div>
     </div>

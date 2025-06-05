@@ -5,6 +5,7 @@ const previewCtx = preview.getContext("2d");
 const scoreEl = document.getElementById("score-value");
 const leaderboardEl = document.getElementById("scores");
 const nameInput = document.getElementById("player-name-input");
+const clearScoresBtn = document.getElementById("clear-scores");
 
 function getPlayerName() {
   return nameInput?.value.trim() || "Anonymous";
@@ -20,6 +21,11 @@ function loadScores() {
 
 function saveScores(scores) {
   localStorage.setItem("tartisScores", JSON.stringify(scores));
+}
+
+function clearScores() {
+  localStorage.removeItem("tartisScores");
+  updateLeaderboard();
 }
 
 function updateLeaderboard() {
@@ -44,6 +50,10 @@ function addScore(name, value) {
 }
 
 updateLeaderboard();
+
+if (clearScoresBtn) {
+  clearScoresBtn.addEventListener("click", clearScores);
+}
 
 const COLS = 20;
 const ROWS = 30;
