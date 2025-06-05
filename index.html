@@ -6,9 +6,19 @@
     <title>Tartis Web</title>
     <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #ff5f6d, #ffc371);
+            --panel-bg: rgba(255, 255, 255, 0.2);
+            --text-color: #fff;
+        }
+        body.dark {
+            --bg-gradient: linear-gradient(135deg, #1e3c72, #2a5298);
+            --panel-bg: rgba(0, 0, 0, 0.6);
+            --text-color: #eee;
+        }
         body {
-            background: linear-gradient(135deg, #ff5f6d, #ffc371);
-            color: #fff;
+            background: var(--bg-gradient);
+            color: var(--text-color);
             font-family: "Bubblegum Sans", cursive;
             display: flex;
             justify-content: center;
@@ -17,6 +27,18 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        #theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 6px 10px;
+            background: var(--panel-bg);
+            border: 1px solid #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            color: var(--text-color);
         }
         #game {
             display: flex;
@@ -32,14 +54,16 @@
         }
         #score, #next, #leaderboard, #name-entry {
             margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--panel-bg);
             padding: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
         #scores {
-            padding-left: 20px;
+            padding-left: 0;
             margin: 0;
+            list-style: none;
         }
         #player-name-input {
             width: 100%;
@@ -47,9 +71,14 @@
             border: none;
             border-radius: 5px;
         }
+        #score-value {
+            font-size: 2em;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
+    <button id="theme-toggle" aria-label="Toggle dark mode"></button>
     <div id="game">
         <canvas id="board" width="300" height="600"></canvas>
         <div id="sidebar">
@@ -71,5 +100,17 @@
         </div>
     </div>
     <script src="tetris.js"></script>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        function setDarkMode(on) {
+            document.body.classList.toggle('dark', on);
+            themeToggle.textContent = on ? 'Light Mode' : 'Dark Mode';
+            localStorage.setItem('tartisDarkMode', on);
+        }
+        themeToggle.addEventListener('click', () => {
+            setDarkMode(!document.body.classList.contains('dark'));
+        });
+        setDarkMode(localStorage.getItem('tartisDarkMode') === 'true');
+    </script>
 </body>
 </html>
