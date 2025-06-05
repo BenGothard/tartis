@@ -37,7 +37,9 @@ function updateLeaderboard() {
 function addScore(name, value) {
   const scores = loadScores();
   scores.push({ name, score: value });
-  saveScores(scores);
+  // Sort scores from highest to lowest and keep only the best five
+  const top = scores.sort((a, b) => b.score - a.score).slice(0, 5);
+  saveScores(top);
   updateLeaderboard();
 }
 

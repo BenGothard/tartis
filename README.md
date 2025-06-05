@@ -7,7 +7,8 @@ Tartis is a lightweight Tetris clone that runs entirely in the browser.
 Open [index.html](index.html) or visit the project's GitHub Pages site to play.
 Use **WASD** controls: `A` and `D` move pieces left and right, `S` drops them down, and `W` rotates.
 You can optionally enter a name in the sidebar to record your scores on the
-leaderboard; leaving it blank will save scores as **Anonymous**.
+leaderboard; leaving it blank will save scores as **Anonymous**. Only the five
+highest scores are stored locally.
 
 ## Development
 
