@@ -4,8 +4,11 @@ const preview = document.getElementById("preview");
 const previewCtx = preview.getContext("2d");
 const scoreEl = document.getElementById("score-value");
 const leaderboardEl = document.getElementById("scores");
+const nameInput = document.getElementById("player-name-input");
 
-let playerName = prompt("Enter your name:") || "Anonymous";
+function getPlayerName() {
+  return nameInput?.value.trim() || "Anonymous";
+}
 
 function loadScores() {
   try {
@@ -192,8 +195,7 @@ function update(time = 0) {
       current = next;
       next = new Piece(randomShape());
       if (collide(current)) {
-        addScore(playerName, score);
-        playerName = prompt("Enter your name:") || "Anonymous";
+        addScore(getPlayerName(), score);
         board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
         score = 0;
         current = new Piece(randomShape());

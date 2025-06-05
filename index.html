@@ -30,7 +30,7 @@
         #sidebar {
             margin-left: 20px;
         }
-        #score, #next, #leaderboard {
+        #score, #next, #leaderboard, #name-entry {
             margin-bottom: 20px;
             background: rgba(255, 255, 255, 0.2);
             padding: 10px;
@@ -40,6 +40,12 @@
         #scores {
             padding-left: 20px;
             margin: 0;
+        }
+        #player-name-input {
+            width: 100%;
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -54,6 +60,9 @@
             <div id="score">
                 <h3>Score</h3>
                 <div id="score-value">0</div>
+            </div>
+            <div id="name-entry">
+                <input id="player-name-input" type="text" placeholder="Your name (optional)" />
             </div>
             <div id="leaderboard">
                 <h3>Leaderboard</h3>
