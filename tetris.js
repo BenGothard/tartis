@@ -3,6 +3,40 @@ const context = canvas.getContext('2d');
 const preview = document.getElementById('preview');
 const previewCtx = preview.getContext('2d');
 const scoreEl = document.getElementById('score-value');
+const leaderboardEl = document.getElementById('scores');
+
+let playerName = prompt('Enter your name:') || 'Anonymous';
+
+function loadScores() {
+    try {
+        return JSON.parse(localStorage.getItem('tartisScores')) || [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function saveScores(scores) {
+    localStorage.setItem('tartisScores', JSON.stringify(scores));
+}
+
+function updateLeaderboard() {
+    const scores = loadScores().sort((a, b) => b.score - a.score).slice(0, 5);
+    leaderboardEl.innerHTML = '';
+    scores.forEach(({ name, score }) => {
+        const li = document.createElement('li');
+        li.textContent = `${name}: ${score}`;
+        leaderboardEl.appendChild(li);
+    });
+}
+
+function addScore(name, value) {
+    const scores = loadScores();
+    scores.push({ name, score: value });
+    saveScores(scores);
+    updateLeaderboard();
+}
+
+updateLeaderboard();
 
 const COLS = 15;
 const ROWS = 30;
@@ -136,8 +170,12 @@ function update(time = 0) {
             current = next;
             next = new Piece(randomShape());
             if (collide(current)) {
+                addScore(playerName, score);
+                playerName = prompt('Enter your name:') || 'Anonymous';
                 board = Array.from({length: ROWS}, () => Array(COLS).fill(0));
                 score = 0;
+                current = new Piece(randomShape());
+                next = new Piece(randomShape());
             }
         }
     }
