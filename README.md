@@ -1,53 +1,20 @@
 # Tartis
 
-Tartis is a small Tetris clone with a modern feel written in Python using the
-Pygame library. The game features simple graphics, score tracking, and the next
-piece preview.
+Tartis is a lightweight Tetris clone that runs entirely in the browser.
 
-## Requirements
+## Playing
 
-- Python 3.12 or compatible version
-- `pygame` package
+Open [index.html](index.html) or visit the project's GitHub Pages site to play.
+Use the arrow keys to move pieces and rotate them with the up arrow.
 
-You can install Pygame with:
+## Development
 
-```bash
-pip install pygame
-```
-
-## Running the Game
-
-Execute the following command from the repository directory:
-
-```bash
-python tetris.py
-```
-
-Run the following to see available command line options:
-
-```bash
-python tetris.py --help
-```
-
-Use the arrow keys to move and rotate the pieces. Close the window to exit the
-game.
-
-## Play Online
-
-A simplified version of Tartis is available through GitHub Pages. Open
-`index.html` from the repository or visit the project page if hosted. The
-browser version is written in JavaScript so no installation is required.
+All logic is contained in [tetris.js](tetris.js) and the markup lives in
+[index.html](index.html). No build tools or external dependencies are required.
 
 ## Deploying to GitHub Pages
 
-1. Open the repository **Settings** and navigate to the **Pages** section.
-2. Select the `main` branch and the `/` root for the source.
-3. Save the settings and wait a few moments for GitHub Pages to publish your
-   site.
-
-The game will then be accessible at
-`https://<username>.github.io/<repository>/` (replace `<username>` and
-`<repository>` with your GitHub name and repository name). Once deployed, you
-can play the web version directly in your browser.
-
-Use the arrow keys to control the falling pieces just like the desktop version.
+1. In your repository settings, open **Pages**.
+2. Select the `main` branch and `/` root as the source.
+3. Save the settings and after a few minutes the game will be accessible at
+   `https://<username>.github.io/<repository>/`.
