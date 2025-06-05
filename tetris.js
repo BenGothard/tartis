@@ -154,7 +154,35 @@ function clearLines() {
   if (lines > 0) score += lines * lines * 100;
 }
 
-function drawMatrix(matrix, offsetX, offsetY, ctx) {
+function getGhostPiece(piece) {
+  const ghost = { shape: piece.shape, x: piece.x, y: piece.y };
+  while (!collide(ghost, 0, 1)) {
+    ghost.y++;
+  }
+  return ghost;
+}
+
+function hardDrop() {
+  while (!collide(current, 0, 1)) {
+    current.y++;
+  }
+  merge(current);
+  clearLines();
+  current = next;
+  next = new Piece(randomShape());
+  if (collide(current)) {
+    addScore(getPlayerName(), score);
+    board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+    score = 0;
+    current = new Piece(randomShape());
+    next = new Piece(randomShape());
+  }
+  dropCounter = 0;
+}
+
+function drawMatrix(matrix, offsetX, offsetY, ctx, ghost = false) {
+  ctx.save();
+  if (ghost) ctx.globalAlpha = 0.3;
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value) {
@@ -165,6 +193,7 @@ function drawMatrix(matrix, offsetX, offsetY, ctx) {
       }
     });
   });
+  ctx.restore();
 }
 
 function draw() {
@@ -172,6 +201,8 @@ function draw() {
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   drawMatrix(board, 0, 0, context);
+  const ghost = getGhostPiece(current);
+  drawMatrix(ghost.shape, ghost.x, ghost.y, context, true);
   drawMatrix(current.shape, current.x, current.y, context);
 
   previewCtx.clearRect(0, 0, preview.width, preview.height);
@@ -213,11 +244,16 @@ document.addEventListener("keydown", (event) => {
   const right = key === "d" || event.key === "ArrowRight";
   const down = key === "s" || event.key === "ArrowDown";
   const rotateKey = key === "w" || event.key === "ArrowUp";
+  const dropKey = event.code === "Space" || event.key === " ";
 
   if (left && !collide(current, -1, 0)) current.x--;
   if (right && !collide(current, 1, 0)) current.x++;
   if (down && !collide(current, 0, 1)) current.y++;
   if (rotateKey) rotate(current);
+  if (dropKey) {
+    event.preventDefault();
+    hardDrop();
+  }
 });
 
 update();
