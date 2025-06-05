@@ -135,9 +135,8 @@ function merge(piece) {
 }
 
 function rotate(piece) {
-  const m = piece.shape.map((row, y) =>
-    row.map((_, x) => piece.shape[piece.shape.length - x - 1][y]),
-  );
+  const { shape } = piece;
+  const m = shape[0].map((_, x) => shape.map((row) => row[x]).reverse());
   const clone = { shape: m, x: piece.x, y: piece.y };
   if (!collide(clone)) piece.shape = m;
 }
