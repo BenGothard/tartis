@@ -23,6 +23,12 @@ Execute the following command from the repository directory:
 python tetris.py
 ```
 
+Run the following to see available command line options:
+
+```bash
+python tetris.py --help
+```
+
 Use the arrow keys to move and rotate the pieces. Close the window to exit the
 game.
 

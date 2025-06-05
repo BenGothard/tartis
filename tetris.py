@@ -1,6 +1,15 @@
-import pygame
+import argparse
 import random
 import sys
+
+parser = argparse.ArgumentParser(
+    description='Tartis - a modern Tetris clone built with Python and Pygame.')
+parser.add_argument(
+    '--version', action='version', version='Tartis 1.0',
+    help='Show program version and exit')
+parser.parse_args()  # exits here on -h/--help before importing pygame
+
+import pygame
 
 # Game configuration
 CELL_SIZE = 30
