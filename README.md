@@ -14,7 +14,9 @@ All logic is contained in [tetris.js](tetris.js) and the markup lives in
 
 ## Deploying to GitHub Pages
 
-1. In your repository settings, open **Pages**.
-2. Select the `main` branch and `/` root as the source.
-3. Save the settings and after a few minutes the game will be accessible at
+1. In your repository settings, open **Pages** and select the `main` branch
+   with the `/` root as the source. This only needs to be done once.
+2. The site will now automatically deploy on every push to `main` via the
+   included [deploy.yml](.github/workflows/deploy.yml) workflow.
+   After each successful run the game will be accessible at
    `https://<username>.github.io/<repository>/`.
