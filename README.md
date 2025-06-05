@@ -22,3 +22,7 @@ All logic is contained in [tetris.js](tetris.js) and the markup lives in
    included [deploy.yml](.github/workflows/deploy.yml) workflow.
    After each successful run the game will be accessible at
    `https://<username>.github.io/<repository>/`.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
