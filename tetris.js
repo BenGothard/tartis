@@ -134,6 +134,7 @@ let next = new Piece(randomShape());
 let dropCounter = 0;
 const BASE_DROP_INTERVAL = 500;
 const MIN_DROP_INTERVAL = 100;
+const SCORE_SPEED_STEP = 5; // ms faster drop for every 100 points
 let dropInterval = BASE_DROP_INTERVAL;
 let linesCleared = 0;
 let lastTime = 0;
@@ -176,6 +177,15 @@ function resumeGame() {
   isPaused = false;
   pauseBtn.textContent = "Pause";
   update();
+}
+
+function updateDropInterval() {
+  const level = Math.floor(linesCleared / 10);
+  const scoreFactor = Math.floor(score / 100) * SCORE_SPEED_STEP;
+  dropInterval = Math.max(
+    MIN_DROP_INTERVAL,
+    BASE_DROP_INTERVAL - level * 50 - scoreFactor
+  );
 }
 
 function randomShape() {
@@ -228,10 +238,7 @@ function clearLines() {
     const level = Math.floor(linesCleared / 10);
     const multiplier = level + 1; // reward higher levels with more points
     score += lines * lines * 100 * multiplier;
-    dropInterval = Math.max(
-      MIN_DROP_INTERVAL,
-      BASE_DROP_INTERVAL - level * 50
-    );
+    updateDropInterval();
   }
 }
 
@@ -242,6 +249,8 @@ function spawnNext() {
     addScore(getPlayerName(), score);
     board = createBoard();
     score = 0;
+    linesCleared = 0;
+    dropInterval = BASE_DROP_INTERVAL;
     current = new Piece(randomShape());
     next = new Piece(randomShape());
   }
@@ -300,6 +309,7 @@ function update(time = 0) {
   const delta = time - lastTime;
   lastTime = time;
   dropCounter += delta;
+  updateDropInterval();
   if (dropCounter > dropInterval) {
     dropCounter = 0;
     if (!collide(current, 0, 1)) {
