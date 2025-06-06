@@ -134,7 +134,9 @@ let next = new Piece(randomShape());
 let dropCounter = 0;
 const BASE_DROP_INTERVAL = 500;
 const MIN_DROP_INTERVAL = 100;
-const SCORE_SPEED_STEP = 5; // ms faster drop for every 100 points
+// Larger step values make the game ramp up in difficulty faster
+const LEVEL_SPEED_STEP = 75; // ms faster drop per level
+const SCORE_SPEED_STEP = 10; // ms faster drop for every 100 points
 let dropInterval = BASE_DROP_INTERVAL;
 let linesCleared = 0;
 let lastTime = 0;
@@ -184,7 +186,7 @@ function updateDropInterval() {
   const scoreFactor = Math.floor(score / 100) * SCORE_SPEED_STEP;
   dropInterval = Math.max(
     MIN_DROP_INTERVAL,
-    BASE_DROP_INTERVAL - level * 50 - scoreFactor
+    BASE_DROP_INTERVAL - level * LEVEL_SPEED_STEP - scoreFactor
   );
 }
 
