@@ -83,6 +83,24 @@
             cursor: pointer;
             color: var(--text-color);
         }
+        #controls {
+            margin-bottom: 20px;
+            background: var(--panel-bg);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        #controls button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 6px 10px;
+            background: var(--panel-bg);
+            border: 1px solid #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
         #score-value {
             font-size: 2em;
             margin-top: 5px;
@@ -150,6 +168,10 @@
                     <h3>Leaderboard</h3>
                     <ol id="scores"></ol>
                     <button id="clear-scores">Clear Scores</button>
+                </div>
+                <div id="controls">
+                    <button id="start-btn">Start</button>
+                    <button id="pause-btn" disabled>Pause</button>
                 </div>
             </div>
         </div>
