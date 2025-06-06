@@ -149,14 +149,17 @@ let hold = null;
 let holdUsed = false;
 let dropCounter = 0;
 const BASE_DROP_INTERVAL = 500;
-const MIN_DROP_INTERVAL = 100;
+const MIN_DROP_INTERVAL = 50;
 // Larger step values make the game ramp up in difficulty faster
 const LEVEL_SPEED_STEP = 75; // ms faster drop per level
 const SCORE_SPEED_STEP = 10; // ms faster drop for every 100 points
+const TIME_SPEED_INTERVAL = 30000; // difficulty increases every 30s
+const TIME_SPEED_STEP = 20; // ms faster drop per interval
 let dropInterval = BASE_DROP_INTERVAL;
 let linesCleared = 0;
 let lastTime = 0;
 let score = 0;
+let elapsedTime = 0;
 
 function resetGame() {
   board = createBoard();
@@ -168,6 +171,7 @@ function resetGame() {
   dropInterval = BASE_DROP_INTERVAL;
   linesCleared = 0;
   lastTime = 0;
+  elapsedTime = 0;
   score = 0;
   draw();
   updateDifficultyMeter();
@@ -183,7 +187,8 @@ function startGame() {
   startBtn.disabled = true;
   pauseBtn.disabled = false;
   pauseBtn.textContent = "Pause";
-  update();
+  lastTime = performance.now();
+  update(lastTime);
 }
 
 function pauseGame() {
@@ -200,15 +205,17 @@ function resumeGame() {
   isPaused = false;
   pauseBtn.textContent = "Pause";
   log("Game resumed");
-  update();
+  lastTime = performance.now();
+  update(lastTime);
 }
 
 function updateDropInterval() {
   const level = Math.floor(linesCleared / 10);
   const scoreFactor = Math.floor(score / 100) * SCORE_SPEED_STEP;
+  const timeFactor = Math.floor(elapsedTime / TIME_SPEED_INTERVAL) * TIME_SPEED_STEP;
   dropInterval = Math.max(
     MIN_DROP_INTERVAL,
-    BASE_DROP_INTERVAL - level * LEVEL_SPEED_STEP - scoreFactor
+    BASE_DROP_INTERVAL - level * LEVEL_SPEED_STEP - scoreFactor - timeFactor
   );
   updateDifficultyMeter();
 }
@@ -289,6 +296,7 @@ function spawnNext() {
     score = 0;
     linesCleared = 0;
     dropInterval = BASE_DROP_INTERVAL;
+    elapsedTime = 0;
     hold = null;
     holdUsed = false;
     current = new Piece(randomShape());
@@ -393,6 +401,7 @@ function update(time = 0) {
   const delta = time - lastTime;
   lastTime = time;
   dropCounter += delta;
+  elapsedTime += delta;
   updateDropInterval();
   if (dropCounter > dropInterval) {
     dropCounter = 0;
