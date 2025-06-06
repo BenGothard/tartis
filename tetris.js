@@ -6,6 +6,12 @@ const scoreEl = document.getElementById("score-value");
 const leaderboardEl = document.getElementById("scores");
 const nameInput = document.getElementById("player-name-input");
 const clearScoresBtn = document.getElementById("clear-scores");
+const startBtn = document.getElementById("start-btn");
+const pauseBtn = document.getElementById("pause-btn");
+
+let animationId = null;
+let isPaused = false;
+let started = false;
 
 function getPlayerName() {
   return nameInput?.value.trim() || "Anonymous";
@@ -133,6 +139,45 @@ let linesCleared = 0;
 let lastTime = 0;
 let score = 0;
 
+function resetGame() {
+  board = createBoard();
+  current = new Piece(randomShape());
+  next = new Piece(randomShape());
+  dropCounter = 0;
+  dropInterval = BASE_DROP_INTERVAL;
+  linesCleared = 0;
+  lastTime = 0;
+  score = 0;
+  draw();
+}
+
+function startGame() {
+  if (!started) {
+    resetGame();
+    started = true;
+  }
+  isPaused = false;
+  startBtn.disabled = true;
+  pauseBtn.disabled = false;
+  pauseBtn.textContent = "Pause";
+  update();
+}
+
+function pauseGame() {
+  if (isPaused) return;
+  isPaused = true;
+  if (animationId) cancelAnimationFrame(animationId);
+  animationId = null;
+  pauseBtn.textContent = "Resume";
+}
+
+function resumeGame() {
+  if (!isPaused) return;
+  isPaused = false;
+  pauseBtn.textContent = "Pause";
+  update();
+}
+
 function randomShape() {
   const key = SHAPE_KEYS[Math.floor(Math.random() * SHAPE_KEYS.length)];
   return SHAPES[key].map((r) => [...r]);
@@ -251,6 +296,7 @@ function draw() {
 }
 
 function update(time = 0) {
+  if (isPaused) return;
   const delta = time - lastTime;
   lastTime = time;
   dropCounter += delta;
@@ -266,7 +312,7 @@ function update(time = 0) {
   }
 
   draw();
-  requestAnimationFrame(update);
+  animationId = requestAnimationFrame(update);
 }
 
 document.addEventListener("keydown", (event) => {
@@ -276,6 +322,8 @@ document.addEventListener("keydown", (event) => {
   const down = key === "s" || event.key === "ArrowDown";
   const rotateKey = key === "w" || event.key === "ArrowUp";
   const dropKey = event.code === "Space" || event.key === " ";
+
+  if (!started || isPaused) return;
 
   if (left && !collide(current, -1, 0)) current.x--;
   if (right && !collide(current, 1, 0)) current.x++;
@@ -290,5 +338,14 @@ document.addEventListener("keydown", (event) => {
 window.addEventListener('resize', resizeCanvas);
 window.addEventListener('DOMContentLoaded', resizeCanvas);
 
+startBtn.addEventListener('click', startGame);
+pauseBtn.addEventListener('click', () => {
+  if (isPaused) {
+    resumeGame();
+  } else {
+    pauseGame();
+  }
+});
+pauseBtn.disabled = true;
+
 resizeCanvas();
-update();
