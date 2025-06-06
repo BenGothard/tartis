@@ -56,6 +56,12 @@
             max-width: 150px;
             box-sizing: border-box;
         }
+        #left-sidebar {
+            margin-right: 20px;
+            width: 15vw;
+            max-width: 150px;
+            box-sizing: border-box;
+        }
         #next, #leaderboard, #name-entry, #difficulty-meter, #hold {
             margin-bottom: 20px;
             background: var(--panel-bg);
@@ -165,18 +171,7 @@
     <div class="game-container">
         <h1 class="game-title">Tartis</h1>
         <div id="game">
-            <div class="board-wrapper">
-                <canvas id="gameCanvas"></canvas>
-            </div>
-            <div id="sidebar">
-                <div id="next">
-                    <h3>Next</h3>
-                    <canvas id="preview" width="90" height="90"></canvas>
-                </div>
-                <div id="hold">
-                    <h3>Hold</h3>
-                    <canvas id="hold-preview" width="90" height="90"></canvas>
-                </div>
+            <div id="left-sidebar">
                 <div id="name-entry">
                     <input id="player-name-input" type="text" placeholder="Your name (optional)" />
                 </div>
@@ -188,6 +183,19 @@
                 <div id="controls">
                     <button id="start-btn">Start</button>
                     <button id="pause-btn" disabled>Pause</button>
+                </div>
+            </div>
+            <div class="board-wrapper">
+                <canvas id="gameCanvas"></canvas>
+            </div>
+            <div id="sidebar">
+                <div id="next">
+                    <h3>Next</h3>
+                    <canvas id="preview" width="90" height="90"></canvas>
+                </div>
+                <div id="hold">
+                    <h3>Hold</h3>
+                    <canvas id="hold-preview" width="90" height="90"></canvas>
                 </div>
                 <div id="difficulty-meter">
                     <h3>Difficulty</h3>
