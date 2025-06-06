@@ -349,7 +349,15 @@ document.addEventListener("keydown", (event) => {
   const rotateKey = key === "w" || event.key === "ArrowUp";
   const dropKey = event.code === "Space" || event.key === " ";
 
-  if (!started || isPaused) return;
+  if (!started) {
+    if (dropKey) {
+      event.preventDefault();
+      startGame();
+    }
+    return;
+  }
+
+  if (isPaused) return;
 
   if (left && !collide(current, -1, 0)) current.x--;
   if (right && !collide(current, 1, 0)) current.x++;
