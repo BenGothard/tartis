@@ -3,6 +3,7 @@ const context = canvas.getContext("2d");
 const preview = document.getElementById("preview");
 const previewCtx = preview.getContext("2d");
 const scoreEl = document.getElementById("score-value");
+const levelEl = document.getElementById("level-value");
 const leaderboardEl = document.getElementById("scores");
 const nameInput = document.getElementById("player-name-input");
 const clearScoresBtn = document.getElementById("clear-scores");
@@ -304,6 +305,10 @@ function draw() {
   drawMatrix(next.shape, offsetX, offsetY, previewCtx);
 
   scoreEl.textContent = score;
+  if (levelEl) {
+    const level = Math.floor(linesCleared / 10) + 1;
+    levelEl.textContent = level;
+  }
 }
 
 function update(time = 0) {
