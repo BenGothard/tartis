@@ -8,6 +8,7 @@ const nameInput = document.getElementById("player-name-input");
 const clearScoresBtn = document.getElementById("clear-scores");
 const startBtn = document.getElementById("start-btn");
 const pauseBtn = document.getElementById("pause-btn");
+const difficultyBar = document.getElementById("difficulty-bar");
 
 let animationId = null;
 let isPaused = false;
@@ -152,6 +153,7 @@ function resetGame() {
   lastTime = 0;
   score = 0;
   draw();
+  updateDifficultyMeter();
 }
 
 function startGame() {
@@ -188,6 +190,16 @@ function updateDropInterval() {
     MIN_DROP_INTERVAL,
     BASE_DROP_INTERVAL - level * LEVEL_SPEED_STEP - scoreFactor
   );
+  updateDifficultyMeter();
+}
+
+function updateDifficultyMeter() {
+  if (!difficultyBar) return;
+  const percent =
+    ((BASE_DROP_INTERVAL - dropInterval) /
+      (BASE_DROP_INTERVAL - MIN_DROP_INTERVAL)) *
+    100;
+  difficultyBar.style.width = `${Math.min(100, Math.max(0, percent))}%`;
 }
 
 function randomShape() {
@@ -385,3 +397,4 @@ pauseBtn.addEventListener('click', () => {
 pauseBtn.disabled = true;
 
 resizeCanvas();
+updateDifficultyMeter();

@@ -56,7 +56,7 @@
             max-width: 150px;
             box-sizing: border-box;
         }
-        #next, #leaderboard, #name-entry {
+        #next, #leaderboard, #name-entry, #difficulty-meter {
             margin-bottom: 20px;
             background: var(--panel-bg);
             padding: 10px;
@@ -103,6 +103,20 @@
             border-radius: 5px;
             cursor: pointer;
             color: var(--text-color);
+        }
+        #difficulty-bar-container {
+            width: 100%;
+            height: 10px;
+            background: #555;
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        #difficulty-bar {
+            height: 100%;
+            width: 0%;
+            background: #4caf50;
+            transition: width 0.2s;
         }
         .game-container {
             display: flex;
@@ -170,6 +184,12 @@
                 <div id="controls">
                     <button id="start-btn">Start</button>
                     <button id="pause-btn" disabled>Pause</button>
+                </div>
+                <div id="difficulty-meter">
+                    <h3>Difficulty</h3>
+                    <div id="difficulty-bar-container">
+                        <div id="difficulty-bar"></div>
+                    </div>
                 </div>
             </div>
         </div>
