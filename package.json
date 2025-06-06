@@ -1,0 +1,13 @@
+{
+  "name": "tartis",
+  "version": "1.0.0",
+  "description": "Tartis is a lightweight Tetris clone that runs entirely in the browser.",
+  "main": "tetris.js",
+  "scripts": {
+    "test": "echo \"No tests\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

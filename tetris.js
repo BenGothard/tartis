@@ -97,6 +97,8 @@ const SHAPES = {
   ],
 };
 
+const SHAPE_KEYS = Object.keys(SHAPES);
+
 const COLORS = {
   0: "#000",
   1: "#00ffff",
@@ -116,7 +118,11 @@ class Piece {
   }
 }
 
-let board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+function createBoard() {
+  return Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+}
+
+let board = createBoard();
 let current = new Piece(randomShape());
 let next = new Piece(randomShape());
 let dropCounter = 0;
@@ -128,8 +134,7 @@ let lastTime = 0;
 let score = 0;
 
 function randomShape() {
-  const keys = Object.keys(SHAPES);
-  const key = keys[Math.floor(Math.random() * keys.length)];
+  const key = SHAPE_KEYS[Math.floor(Math.random() * SHAPE_KEYS.length)];
   return SHAPES[key].map((r) => [...r]);
 }
 
@@ -185,6 +190,18 @@ function clearLines() {
   }
 }
 
+function spawnNext() {
+  current = next;
+  next = new Piece(randomShape());
+  if (collide(current)) {
+    addScore(getPlayerName(), score);
+    board = createBoard();
+    score = 0;
+    current = new Piece(randomShape());
+    next = new Piece(randomShape());
+  }
+}
+
 function getGhostPiece(piece) {
   const ghost = { shape: piece.shape, x: piece.x, y: piece.y };
   while (!collide(ghost, 0, 1)) {
@@ -194,20 +211,11 @@ function getGhostPiece(piece) {
 }
 
 function hardDrop() {
-  while (!collide(current, 0, 1)) {
-    current.y++;
-  }
+  const ghost = getGhostPiece(current);
+  current.y = ghost.y;
   merge(current);
   clearLines();
-  current = next;
-  next = new Piece(randomShape());
-  if (collide(current)) {
-    addScore(getPlayerName(), score);
-    board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-    score = 0;
-    current = new Piece(randomShape());
-    next = new Piece(randomShape());
-  }
+  spawnNext();
   dropCounter = 0;
 }
 
@@ -253,15 +261,7 @@ function update(time = 0) {
     } else {
       merge(current);
       clearLines();
-      current = next;
-      next = new Piece(randomShape());
-      if (collide(current)) {
-        addScore(getPlayerName(), score);
-        board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-        score = 0;
-        current = new Piece(randomShape());
-        next = new Piece(randomShape());
-      }
+      spawnNext();
     }
   }
 
