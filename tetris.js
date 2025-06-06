@@ -11,6 +11,17 @@ const pauseBtn = document.getElementById("pause-btn");
 const difficultyBar = document.getElementById("difficulty-bar");
 const holdCanvas = document.getElementById("hold-preview");
 const holdCtx = holdCanvas.getContext("2d");
+const terminalEl = document.getElementById("terminal");
+
+function log(message) {
+  console.log(message);
+  if (terminalEl) {
+    const line = document.createElement("div");
+    line.textContent = message;
+    terminalEl.appendChild(line);
+    terminalEl.scrollTop = terminalEl.scrollHeight;
+  }
+}
 
 let animationId = null;
 let isPaused = false;
@@ -168,6 +179,7 @@ function startGame() {
     started = true;
   }
   isPaused = false;
+  log("Game started");
   startBtn.disabled = true;
   pauseBtn.disabled = false;
   pauseBtn.textContent = "Pause";
@@ -180,12 +192,14 @@ function pauseGame() {
   if (animationId) cancelAnimationFrame(animationId);
   animationId = null;
   pauseBtn.textContent = "Resume";
+  log("Game paused");
 }
 
 function resumeGame() {
   if (!isPaused) return;
   isPaused = false;
   pauseBtn.textContent = "Pause";
+  log("Game resumed");
   update();
 }
 
@@ -259,14 +273,17 @@ function clearLines() {
     const multiplier = level + 1; // reward higher levels with more points
     score += lines * lines * 100 * multiplier;
     updateDropInterval();
+    log(`Cleared ${lines} line${lines > 1 ? 's' : ''}`);
   }
 }
 
 function spawnNext() {
+  log("Spawning next piece");
   current = next;
   next = new Piece(randomShape());
   holdUsed = false;
   if (collide(current)) {
+    log("Game over");
     addScore(getPlayerName(), score);
     board = createBoard();
     score = 0;
@@ -294,6 +311,7 @@ function hardDrop() {
   clearLines();
   spawnNext();
   dropCounter = 0;
+  log("Hard drop");
 }
 
 function holdCurrent() {
@@ -312,6 +330,7 @@ function holdCurrent() {
   holdUsed = true;
   dropCounter = 0;
   draw();
+  log("Piece held");
 }
 
 function drawMatrix(matrix, offsetX, offsetY, ctx, ghost = false, cellSize = CELL) {
@@ -409,11 +428,25 @@ document.addEventListener("keydown", (event) => {
 
   if (isPaused) return;
 
-  if (left && !collide(current, -1, 0)) current.x--;
-  if (right && !collide(current, 1, 0)) current.x++;
-  if (down && !collide(current, 0, 1)) current.y++;
-  if (rotateKey) rotate(current);
-  if (holdKey) holdCurrent();
+  if (left && !collide(current, -1, 0)) {
+    current.x--;
+    log("Move left");
+  }
+  if (right && !collide(current, 1, 0)) {
+    current.x++;
+    log("Move right");
+  }
+  if (down && !collide(current, 0, 1)) {
+    current.y++;
+    log("Move down");
+  }
+  if (rotateKey) {
+    rotate(current);
+    log("Rotate");
+  }
+  if (holdKey) {
+    holdCurrent();
+  }
   if (dropKey) {
     event.preventDefault();
     hardDrop();

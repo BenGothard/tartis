@@ -150,6 +150,17 @@
             position: relative;
         }
 
+        #terminal {
+            width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            background: #111;
+            color: #0f0;
+            font-family: monospace;
+            padding: 4px;
+            box-sizing: border-box;
+        }
+
         /* If using a <canvas> for the board: */
         #gameCanvas {
             width: 100%;
@@ -187,6 +198,7 @@
             </div>
             <div class="board-wrapper">
                 <canvas id="gameCanvas"></canvas>
+                <pre id="terminal"></pre>
             </div>
             <div id="sidebar">
                 <div id="difficulty-meter">
