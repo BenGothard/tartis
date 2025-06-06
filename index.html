@@ -56,7 +56,7 @@
             max-width: 150px;
             box-sizing: border-box;
         }
-        #next, #leaderboard, #name-entry, #difficulty-meter {
+        #next, #leaderboard, #name-entry, #difficulty-meter, #hold {
             margin-bottom: 20px;
             background: var(--panel-bg);
             padding: 10px;
@@ -173,9 +173,13 @@
                     <h3>Next</h3>
                     <canvas id="preview" width="90" height="90"></canvas>
                 </div>
-            <div id="name-entry">
-                <input id="player-name-input" type="text" placeholder="Your name (optional)" />
-            </div>
+                <div id="hold">
+                    <h3>Hold</h3>
+                    <canvas id="hold-preview" width="90" height="90"></canvas>
+                </div>
+                <div id="name-entry">
+                    <input id="player-name-input" type="text" placeholder="Your name (optional)" />
+                </div>
                 <div id="leaderboard">
                     <h3>Leaderboard</h3>
                     <ol id="scores"></ol>
