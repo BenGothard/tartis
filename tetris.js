@@ -9,6 +9,8 @@ const clearScoresBtn = document.getElementById("clear-scores");
 const startBtn = document.getElementById("start-btn");
 const pauseBtn = document.getElementById("pause-btn");
 const difficultyBar = document.getElementById("difficulty-bar");
+const holdCanvas = document.getElementById("hold-preview");
+const holdCtx = holdCanvas.getContext("2d");
 
 let animationId = null;
 let isPaused = false;
@@ -132,6 +134,8 @@ function createBoard() {
 let board = createBoard();
 let current = new Piece(randomShape());
 let next = new Piece(randomShape());
+let hold = null;
+let holdUsed = false;
 let dropCounter = 0;
 const BASE_DROP_INTERVAL = 500;
 const MIN_DROP_INTERVAL = 100;
@@ -147,6 +151,8 @@ function resetGame() {
   board = createBoard();
   current = new Piece(randomShape());
   next = new Piece(randomShape());
+  hold = null;
+  holdUsed = false;
   dropCounter = 0;
   dropInterval = BASE_DROP_INTERVAL;
   linesCleared = 0;
@@ -259,12 +265,15 @@ function clearLines() {
 function spawnNext() {
   current = next;
   next = new Piece(randomShape());
+  holdUsed = false;
   if (collide(current)) {
     addScore(getPlayerName(), score);
     board = createBoard();
     score = 0;
     linesCleared = 0;
     dropInterval = BASE_DROP_INTERVAL;
+    hold = null;
+    holdUsed = false;
     current = new Piece(randomShape());
     next = new Piece(randomShape());
   }
@@ -285,6 +294,24 @@ function hardDrop() {
   clearLines();
   spawnNext();
   dropCounter = 0;
+}
+
+function holdCurrent() {
+  if (holdUsed) return;
+  if (!hold) {
+    hold = current.shape;
+    current = next;
+    next = new Piece(randomShape());
+  } else {
+    const temp = hold;
+    hold = current.shape;
+    current = new Piece(temp);
+  }
+  current.x = Math.floor(COLS / 2 - current.shape[0].length / 2);
+  current.y = 0;
+  holdUsed = true;
+  dropCounter = 0;
+  draw();
 }
 
 function drawMatrix(matrix, offsetX, offsetY, ctx, ghost = false, cellSize = CELL) {
@@ -328,6 +355,14 @@ function draw() {
   const offsetY = Math.floor((4 - next.shape.length) / 2);
   drawMatrix(next.shape, offsetX, offsetY, previewCtx, false, previewCell);
 
+  holdCtx.clearRect(0, 0, holdCanvas.width, holdCanvas.height);
+  if (hold) {
+    const holdCell = Math.min(holdCanvas.width, holdCanvas.height) / 4;
+    const hOffX = Math.floor((4 - hold[0].length) / 2);
+    const hOffY = Math.floor((4 - hold.length) / 2);
+    drawMatrix(hold, hOffX, hOffY, holdCtx, false, holdCell);
+  }
+
   if (levelEl) {
     const level = Math.floor(linesCleared / 10) + 1;
     levelEl.textContent = level;
@@ -362,6 +397,7 @@ document.addEventListener("keydown", (event) => {
   const down = key === "s" || event.key === "ArrowDown";
   const rotateKey = key === "w" || event.key === "ArrowUp";
   const dropKey = event.code === "Space" || event.key === " ";
+  const holdKey = key === "c";
 
   if (!started) {
     if (dropKey) {
@@ -377,6 +413,7 @@ document.addEventListener("keydown", (event) => {
   if (right && !collide(current, 1, 0)) current.x++;
   if (down && !collide(current, 0, 1)) current.y++;
   if (rotateKey) rotate(current);
+  if (holdKey) holdCurrent();
   if (dropKey) {
     event.preventDefault();
     hardDrop();
