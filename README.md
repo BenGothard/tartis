@@ -13,6 +13,8 @@ highest scores are stored locally.
 
 The game awards more points as you progress. Every ten lines cleared increases
 the current level, multiplying the score earned for subsequent line clears.
+Each level now speeds up the falling pieces more sharply, so the game gets
+harder sooner than before.
 
 ## Development
 
