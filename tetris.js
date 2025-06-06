@@ -299,7 +299,9 @@ function draw() {
   drawMatrix(current.shape, current.x, current.y, context);
 
   previewCtx.clearRect(0, 0, preview.width, preview.height);
-  drawMatrix(next.shape, 1, 1, previewCtx);
+  const offsetX = Math.floor((4 - next.shape[0].length) / 2);
+  const offsetY = Math.floor((4 - next.shape.length) / 2);
+  drawMatrix(next.shape, offsetX, offsetY, previewCtx);
 
   scoreEl.textContent = score;
 }
