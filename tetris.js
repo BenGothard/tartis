@@ -274,16 +274,26 @@ function hardDrop() {
   dropCounter = 0;
 }
 
-function drawMatrix(matrix, offsetX, offsetY, ctx, ghost = false) {
+function drawMatrix(matrix, offsetX, offsetY, ctx, ghost = false, cellSize = CELL) {
   ctx.save();
   if (ghost) ctx.globalAlpha = 0.3;
   matrix.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value) {
         ctx.fillStyle = COLORS[value];
-        ctx.fillRect((x + offsetX) * CELL, (y + offsetY) * CELL, CELL, CELL);
+        ctx.fillRect(
+          (x + offsetX) * cellSize,
+          (y + offsetY) * cellSize,
+          cellSize,
+          cellSize
+        );
         ctx.strokeStyle = "#444";
-        ctx.strokeRect((x + offsetX) * CELL, (y + offsetY) * CELL, CELL, CELL);
+        ctx.strokeRect(
+          (x + offsetX) * cellSize,
+          (y + offsetY) * cellSize,
+          cellSize,
+          cellSize
+        );
       }
     });
   });
@@ -300,9 +310,10 @@ function draw() {
   drawMatrix(current.shape, current.x, current.y, context);
 
   previewCtx.clearRect(0, 0, preview.width, preview.height);
+  const previewCell = Math.min(preview.width, preview.height) / 4;
   const offsetX = Math.floor((4 - next.shape[0].length) / 2);
   const offsetY = Math.floor((4 - next.shape.length) / 2);
-  drawMatrix(next.shape, offsetX, offsetY, previewCtx);
+  drawMatrix(next.shape, offsetX, offsetY, previewCtx, false, previewCell);
 
   scoreEl.textContent = score;
   if (levelEl) {
