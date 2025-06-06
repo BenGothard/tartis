@@ -53,7 +53,7 @@
         #sidebar {
             margin-left: 20px;
         }
-        #score, #next, #leaderboard, #name-entry {
+        #score, #level, #next, #leaderboard, #name-entry {
             margin-bottom: 20px;
             background: var(--panel-bg);
             padding: 10px;
@@ -101,7 +101,7 @@
             cursor: pointer;
             color: var(--text-color);
         }
-        #score-value {
+        #score-value, #level-value {
             font-size: 2em;
             margin-top: 5px;
         }
@@ -161,6 +161,10 @@
                 <div id="score">
                 <h3>Score</h3>
                 <div id="score-value">0</div>
+            </div>
+            <div id="level">
+                <h3>Level</h3>
+                <div id="level-value">1</div>
             </div>
             <div id="name-entry">
                 <input id="player-name-input" type="text" placeholder="Your name (optional)" />
