@@ -462,6 +462,52 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+// Basic touch controls for mobile
+let touchStartX = 0;
+let touchStartY = 0;
+
+canvas.addEventListener('touchstart', (e) => {
+  const t = e.touches[0];
+  touchStartX = t.clientX;
+  touchStartY = t.clientY;
+});
+
+canvas.addEventListener('touchend', (e) => {
+  const t = e.changedTouches[0];
+  const dx = t.clientX - touchStartX;
+  const dy = t.clientY - touchStartY;
+  const absX = Math.abs(dx);
+  const absY = Math.abs(dy);
+  const threshold = 30;
+
+  if (!started) {
+    // start game on tap when not running
+    if (absX < threshold && absY < threshold) startGame();
+    return;
+  }
+
+  if (absX < threshold && absY < threshold) {
+    rotate(current);
+    log('Rotate');
+    return;
+  }
+
+  if (absX > absY) {
+    if (dx > 0 && !collide(current, 1, 0)) {
+      current.x++;
+      log('Move right');
+    } else if (dx < 0 && !collide(current, -1, 0)) {
+      current.x--;
+      log('Move left');
+    }
+  } else if (dy > 0) {
+    hardDrop();
+  } else {
+    rotate(current);
+    log('Rotate');
+  }
+});
+
 window.addEventListener('resize', resizeCanvas);
 window.addEventListener('DOMContentLoaded', resizeCanvas);
 
